@@ -1,0 +1,6 @@
+{
+  "name": "L'ARGENT NOIR — Haute Parfumerie & Editorial Journal",
+  "description": "An exquisite black and silver luxury perfume journal and guide featuring in-depth fragrance reviews, expert notes breakdowns, longevity masterclasses, and curated perfume selections.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
