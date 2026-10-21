@@ -100,7 +100,10 @@ export function ArticleDetail({
 
   // Find related articles
   const relatedArticles = allArticles.filter((a) =>
-    article.relatedSlugs.includes(a.slug) || (a.category === article.category && a.id !== article.id)
+    article.relatedSlugs.includes(a.slug) ||
+    article.relatedSlugs.includes(a.blogSlug) ||
+    article.relatedSlugs.includes(a.reviewSlug) ||
+    (a.category === article.category && a.id !== article.id)
   ).slice(0, 3);
 
   return (
@@ -117,7 +120,7 @@ export function ArticleDetail({
       {showShareToast && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-zinc-900 border border-zinc-700 text-white shadow-2xl animate-fade-in text-xs uppercase tracking-wider font-medium">
           <Check className="w-4 h-4 text-emerald-400" />
-          <span>Article link copied to clipboard</span>
+          <span>Article clean URL copied to clipboard</span>
         </div>
       )}
 
@@ -130,11 +133,11 @@ export function ArticleDetail({
             className="inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span className="uppercase tracking-widest font-medium">Back to Compendium</span>
+            <span className="uppercase tracking-widest font-medium">Back to Blog</span>
           </button>
 
           <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-zinc-400 font-sans">
-            <span onClick={onBack} className="cursor-pointer hover:text-zinc-300">Journal</span>
+            <span onClick={onBack} className="cursor-pointer hover:text-zinc-300">Blog</span>
             <ChevronRight className="w-3 h-3 text-zinc-600" />
             <span className="text-zinc-400">{article.category}</span>
           </nav>

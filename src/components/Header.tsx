@@ -21,6 +21,7 @@ export function Header({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
+    { name: 'Blog', path: '/blog' },
     { name: 'Reviews', path: '/niche-perfume-reviews' },
     { name: 'Scent Notes', path: '/perfume-notes-explained' },
     { name: 'Longevity', path: '/how-to-make-perfume-last-longer' },

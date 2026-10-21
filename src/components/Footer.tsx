@@ -48,6 +48,15 @@ export function Footer({ onNavigate }: FooterProps) {
               <li>
                 <button
                   type="button"
+                  onClick={() => onNavigate('/blog')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Perfume Blog & Articles
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
                   onClick={() => onNavigate('/niche-perfume-reviews')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
@@ -111,7 +120,7 @@ export function Footer({ onNavigate }: FooterProps) {
               <li>
                 <button
                   type="button"
-                  onClick={() => onNavigate('/niche-perfume-reviews/oud-wood-tom-ford')}
+                  onClick={() => onNavigate('/blog/best-oud-perfumes-woody-luxurious-scents')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
                   Oud Perfume Guide
@@ -120,7 +129,7 @@ export function Footer({ onNavigate }: FooterProps) {
               <li>
                 <button
                   type="button"
-                  onClick={() => onNavigate('/niche-perfume-reviews/sauvage-elixir-dior')}
+                  onClick={() => onNavigate('/blog/top-10-best-perfumes-for-men-in-2026')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
                   Best Perfumes for Men 2026

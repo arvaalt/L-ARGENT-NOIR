@@ -44,6 +44,8 @@ export interface TOCItem {
 export interface Article {
   id: string;
   slug: string;
+  blogSlug: string;
+  reviewSlug: string;
   title: string;
   metaTitle: string;
   metaDescription: string;

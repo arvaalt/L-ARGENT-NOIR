@@ -32,6 +32,32 @@ export const PAGES_SEO: Record<string, PageMeta> = {
         answer: 'Longevity is governed by chemistry rather than prestige. While many haute parfumerie extraits endure for 14+ hours due to heavy natural resinoids, airy citrus colognes will naturally disperse faster. Our longevity guides detail how skin hydration and molecular fixatives dictate actual tenacity.',
       },
     ],
+  blog: {
+    title: "Perfume Blog & Fragrance Guides | L'ARGENT NOIR",
+    metaTitle: "Perfume Blog & Fragrance Guides | L'ARGENT NOIR",
+    metaDescription: "Read comprehensive perfume blog guides, olfactory note breakdowns, and expert fragrance recommendations for men and women. Explore haute parfumerie today.",
+    canonicalPath: '/blog',
+    h1: 'Haute Parfumerie Blog: Comprehensive Fragrance Guides & Monographs',
+    mainKeyword: 'perfume blog',
+    relatedKeywords: ['fragrance guides', 'perfume reviews'],
+    intent: 'Informational',
+    questionAnswered: 'Where can I read detailed perfume guides and monographs?',
+    image: '/images/haute-parfumerie-flacon-hero.webp',
+    imageAlt: 'Perfume flacon and olfactory notes compendium for luxury perfume blog',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Blog', url: '/blog' },
+    ],
+    faqs: [
+      {
+        question: 'What topics does the L’ARGENT NOIR perfume blog cover?',
+        answer: 'Our perfume blog covers everything from top seasonal recommendations, olfactory note hierarchies, perfume concentration differences (EDT vs EDP vs Parfum), to scent longevity optimization and fragrance family curation.',
+      },
+      {
+        question: 'Are the recommendations on the perfume blog independently tested?',
+        answer: 'Yes, each flacon highlighted in our articles is tested on dermal skin across minimum 12-hour evaluation cycles for true projection, sillage, and note transitions.',
+      },
+    ],
   },
   perfumeReviews: {
     title: "Niche Perfume Reviews | L'ARGENT NOIR",

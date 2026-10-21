@@ -23,26 +23,23 @@ import { Article } from './types';
 
 // Map legacy / alternate paths to canonical clean URLs
 const REDIRECT_MAP: Record<string, string> = {
+  '/blogs': '/blog',
+  '/reviews': '/niche-perfume-reviews',
   '/perfume-reviews': '/niche-perfume-reviews',
   '/scent-notes': '/perfume-notes-explained',
   '/longevity-guide': '/how-to-make-perfume-last-longer',
   '/recommendations': '/best-long-lasting-niche-perfumes',
   '/concentration-guide': '/eau-de-parfum-vs-parfum',
   '/fragrance-families': '/woody-oriental-fragrance-family',
-  '/blog/top-10-best-perfumes-for-men-in-2026': '/niche-perfume-reviews/sauvage-elixir-dior',
-  '/blog/best-long-lasting-perfumes-for-women': '/niche-perfume-reviews/baccarat-rouge-540-maison-francis-kurkdjian',
-  '/blog/eau-de-parfum-vs-eau-de-toilette-difference': '/niche-perfume-reviews/bleu-de-chanel-edp-chanel',
-  '/blog/best-perfumes-for-summer-fresh-fragrances': '/niche-perfume-reviews/wulong-cha-nishane',
-  '/blog/best-perfumes-to-gift-special-occasions': '/niche-perfume-reviews/angels-share-kilian-paris',
-  '/blog/beginners-guide-perfume-notes-top-middle-base': '/niche-perfume-reviews/shalimar-guerlain-paris',
-  '/blog/how-to-make-perfume-last-longer-all-day': '/niche-perfume-reviews/molecule-01-escentric-molecules',
-  '/blog/best-oud-perfumes-woody-luxurious-scents': '/niche-perfume-reviews/oud-wood-tom-ford',
-  '/blog/best-affordable-perfumes-that-smell-expensive': '/niche-perfume-reviews/encre-noire-lalique',
-  '/blog/how-to-choose-perfume-personality-lifestyle': '/niche-perfume-reviews/another-13-le-labo',
+  '/blog/top-10-best-perfumes-for-men-2026': '/blog/top-10-best-perfumes-for-men-in-2026',
+  '/blog/best-perfumes-for-summer-fresh-long-lasting-fragrances': '/blog/best-perfumes-for-summer-fresh-fragrances',
+  '/blog/best-perfumes-to-gift-birthdays-anniversaries-special-occasions': '/blog/best-perfumes-to-gift-special-occasions',
+  '/blog/how-to-choose-perfect-perfume-personality-lifestyle': '/blog/how-to-choose-perfume-personality-lifestyle',
 };
 
 const VALID_STATIC_PATHS = new Set([
   '/',
+  '/blog',
   '/niche-perfume-reviews',
   '/perfume-notes-explained',
   '/how-to-make-perfume-last-longer',
@@ -85,8 +82,10 @@ export default function App() {
 
     setCurrentPath(cleanPath);
 
-    // Check if path matches an individual monograph
-    const foundArticle = ARTICLES.find((a) => a.slug === cleanPath);
+    // Check if path matches an individual monograph by clean slug, blogSlug, or reviewSlug
+    const foundArticle = ARTICLES.find(
+      (a) => a.slug === cleanPath || a.blogSlug === cleanPath || a.reviewSlug === cleanPath
+    );
     if (foundArticle) {
       setCurrentArticle(foundArticle);
       setIs404(false);
@@ -156,6 +155,7 @@ export default function App() {
   // Match SEO metadata
   const getPageMeta = () => {
     if (currentArticle) return null;
+    if (currentPath === '/blog') return PAGES_SEO.blog;
     if (currentPath === '/niche-perfume-reviews') return PAGES_SEO.perfumeReviews;
     if (currentPath === '/perfume-notes-explained') return PAGES_SEO.scentNotes;
     if (currentPath === '/how-to-make-perfume-last-longer') return PAGES_SEO.longevityGuide;
@@ -205,12 +205,12 @@ export default function App() {
           <ArticleDetail
             article={currentArticle}
             allArticles={ARTICLES}
-            onBack={() => handleNavigate('/niche-perfume-reviews')}
+            onBack={() => handleNavigate('/blog')}
             onSelectArticle={handleSelectArticle}
             isSaved={savedIds.includes(currentArticle.id)}
             onToggleSave={() => handleToggleSave(currentArticle.id)}
           />
-        ) : currentPath === '/niche-perfume-reviews' ? (
+        ) : currentPath === '/blog' || currentPath === '/niche-perfume-reviews' ? (
           <PerfumeReviewsPage
             articles={ARTICLES}
             onNavigate={handleNavigate}

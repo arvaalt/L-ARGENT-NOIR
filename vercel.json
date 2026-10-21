@@ -3,6 +3,11 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/blogs",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
       "source": "/perfume-reviews",
       "destination": "/niche-perfume-reviews",
       "permanent": true
@@ -33,53 +38,23 @@
       "permanent": true
     },
     {
-      "source": "/blog/top-10-best-perfumes-for-men-in-2026",
-      "destination": "/niche-perfume-reviews/sauvage-elixir-dior",
+      "source": "/blog/top-10-best-perfumes-for-men-2026",
+      "destination": "/blog/top-10-best-perfumes-for-men-in-2026",
       "permanent": true
     },
     {
-      "source": "/blog/best-long-lasting-perfumes-for-women",
-      "destination": "/niche-perfume-reviews/baccarat-rouge-540-maison-francis-kurkdjian",
+      "source": "/blog/best-perfumes-for-summer-fresh-long-lasting-fragrances",
+      "destination": "/blog/best-perfumes-for-summer-fresh-fragrances",
       "permanent": true
     },
     {
-      "source": "/blog/eau-de-parfum-vs-eau-de-toilette-difference",
-      "destination": "/niche-perfume-reviews/bleu-de-chanel-edp-chanel",
+      "source": "/blog/best-perfumes-to-gift-birthdays-anniversaries-special-occasions",
+      "destination": "/blog/best-perfumes-to-gift-special-occasions",
       "permanent": true
     },
     {
-      "source": "/blog/best-perfumes-for-summer-fresh-fragrances",
-      "destination": "/niche-perfume-reviews/wulong-cha-nishane",
-      "permanent": true
-    },
-    {
-      "source": "/blog/best-perfumes-to-gift-special-occasions",
-      "destination": "/niche-perfume-reviews/angels-share-kilian-paris",
-      "permanent": true
-    },
-    {
-      "source": "/blog/beginners-guide-perfume-notes-top-middle-base",
-      "destination": "/niche-perfume-reviews/shalimar-guerlain-paris",
-      "permanent": true
-    },
-    {
-      "source": "/blog/how-to-make-perfume-last-longer-all-day",
-      "destination": "/niche-perfume-reviews/molecule-01-escentric-molecules",
-      "permanent": true
-    },
-    {
-      "source": "/blog/best-oud-perfumes-woody-luxurious-scents",
-      "destination": "/niche-perfume-reviews/oud-wood-tom-ford",
-      "permanent": true
-    },
-    {
-      "source": "/blog/best-affordable-perfumes-that-smell-expensive",
-      "destination": "/niche-perfume-reviews/encre-noire-lalique",
-      "permanent": true
-    },
-    {
-      "source": "/blog/how-to-choose-perfume-personality-lifestyle",
-      "destination": "/niche-perfume-reviews/another-13-le-labo",
+      "source": "/blog/how-to-choose-perfect-perfume-personality-lifestyle",
+      "destination": "/blog/how-to-choose-perfume-personality-lifestyle",
       "permanent": true
     }
   ],

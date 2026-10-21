@@ -104,7 +104,7 @@ export function SEOHead({ pageMeta, article }: SEOProps) {
     if (!isHomePage) {
       const breadcrumbs = pageMeta?.breadcrumbs || (article ? [
         { name: 'Home', url: '/' },
-        { name: 'Niche Perfume Reviews', url: '/niche-perfume-reviews' },
+        { name: 'Blog', url: '/blog' },
         { name: article.title, url: article.slug },
       ] : [{ name: 'Home', url: '/' }]);
 

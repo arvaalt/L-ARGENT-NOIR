@@ -203,10 +203,31 @@ const routes: RouteDefinition[] = [
     faqs: PAGES_SEO.fragranceFamilies.faqs,
     breadcrumbs: PAGES_SEO.fragranceFamilies.breadcrumbs,
   },
+  {
+    path: '/blog',
+    metaTitle: PAGES_SEO.blog.metaTitle,
+    metaDescription: PAGES_SEO.blog.metaDescription,
+    h1: PAGES_SEO.blog.h1,
+    leadParagraph: "Explore our haute parfumerie blog, featuring ten in-depth editorial monographs, scent note masterclasses, and buying recommendations independently tested across living skin.",
+    image: PAGES_SEO.blog.image,
+    h2s: [
+      {
+        title: "Editorial Fragrance Monographs & Guides",
+        body: "From the top 10 best perfumes for men in 2026 to our definitive 12-hour longevity secrets, read serious fragrance journalism without commercial marketing bias.",
+      },
+      {
+        title: "Deciphering Olfactory Notes, Accords & Sillage",
+        body: "Every article breaks down top, middle, and base notes with chemical precision, evaluating projection, tenacity, and raw botanical sourcing.",
+      },
+    ],
+    faqs: PAGES_SEO.blog.faqs,
+    breadcrumbs: PAGES_SEO.blog.breadcrumbs,
+  },
 ];
 
-// Add all 10 blog review monographs
+// Add all 10 blog clean article pages AND review monograph clean pages
 ARTICLES.forEach((art) => {
+  // 1. Primary Clean Blog URL
   routes.push({
     path: art.slug,
     metaTitle: art.metaTitle,
@@ -221,7 +242,7 @@ ARTICLES.forEach((art) => {
     faqs: art.faqs,
     breadcrumbs: [
       { name: 'Home', url: '/' },
-      { name: 'Niche Perfume Reviews', url: '/niche-perfume-reviews' },
+      { name: 'Blog', url: '/blog' },
       { name: art.title, url: art.slug },
     ],
     isArticle: true,
@@ -230,6 +251,33 @@ ARTICLES.forEach((art) => {
     authorName: art.author.name,
     authorTitle: art.author.title,
   });
+
+  // 2. Direct Review Monograph URL
+  if (art.reviewSlug && art.reviewSlug !== art.slug) {
+    routes.push({
+      path: art.reviewSlug,
+      metaTitle: art.metaTitle,
+      metaDescription: art.metaDescription,
+      h1: art.title,
+      leadParagraph: art.excerpt,
+      image: art.heroImage,
+      h2s: art.sections.map((s) => ({
+        title: s.heading,
+        body: s.paragraphs[0] || '',
+      })),
+      faqs: art.faqs,
+      breadcrumbs: [
+        { name: 'Home', url: '/' },
+        { name: 'Niche Perfume Reviews', url: '/niche-perfume-reviews' },
+        { name: art.title, url: art.reviewSlug },
+      ],
+      isArticle: true,
+      publishedDate: art.publishedDate,
+      updatedDate: art.updatedDate,
+      authorName: art.author.name,
+      authorTitle: art.author.title,
+    });
+  }
 });
 
 console.log(`Starting static pre-rendering for ${routes.length} routes...`);
