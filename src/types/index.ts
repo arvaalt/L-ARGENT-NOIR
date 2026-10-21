@@ -74,3 +74,24 @@ export interface CategoryInfo {
   description: string;
   count: number;
 }
+
+export interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+export interface PageMeta {
+  title: string;
+  metaTitle: string;
+  metaDescription: string;
+  canonicalPath: string;
+  h1: string;
+  mainKeyword: string;
+  relatedKeywords: string[];
+  intent: string;
+  questionAnswered: string;
+  breadcrumbs: BreadcrumbItem[];
+  faqs: FAQItem[];
+  image?: string;
+  imageAlt?: string;
+}

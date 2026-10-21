@@ -1,55 +1,150 @@
 import { useEffect } from 'react';
-import { Article } from '../types';
+import { Article, PageMeta } from '../types';
 
 interface SEOProps {
+  pageMeta?: PageMeta | null;
   article?: Article | null;
-  siteName?: string;
 }
 
-export function SEOHead({ article }: SEOProps) {
+export function SEOHead({ pageMeta, article }: SEOProps) {
   useEffect(() => {
-    const siteTitle = "L'ARGENT NOIR — Haute Parfumerie Journal & Fragrance Compendium";
-    const defaultDesc =
-      "Discover the art of fine fragrance. In-depth perfume reviews, scent note masterclasses, longevity guides, and curated recommendations in haute parfumerie.";
+    const siteName = "L'ARGENT NOIR";
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://ais-pre-pa6dhaaajptpkebllww2yj-701409644146.asia-northeast1.run.app';
 
-    const title = article ? article.metaTitle : siteTitle;
-    const desc = article ? article.metaDescription : defaultDesc;
+    let title = "Haute Parfumerie Journal | L'ARGENT NOIR";
+    let desc = "Explore haute parfumerie through our fine fragrance journal. Uncover honest evaluations, olfactory chemistry, and rare flacons tested on skin. Read now.";
+    let canonical = origin + '/';
+    let ogImage = origin + '/images/haute-parfumerie-flacon-hero.webp';
 
+    if (pageMeta) {
+      title = pageMeta.metaTitle.endsWith(siteName) ? pageMeta.metaTitle : `${pageMeta.metaTitle} | ${siteName}`;
+      desc = pageMeta.metaDescription;
+      canonical = origin + pageMeta.canonicalPath;
+      if (pageMeta.image) ogImage = origin + pageMeta.image;
+    } else if (article) {
+      title = article.metaTitle.endsWith(siteName) ? article.metaTitle : `${article.metaTitle} | ${siteName}`;
+      desc = article.metaDescription;
+      canonical = origin + article.slug;
+      if (article.heroImage) ogImage = origin + article.heroImage;
+    }
+
+    // Set document.title
     document.title = title;
 
-    // Update meta description
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta');
-      metaDesc.setAttribute('name', 'description');
-      document.head.appendChild(metaDesc);
+    // Helper to set meta tags
+    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
+      let el = document.querySelector(`meta[${attr}="${key}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', value);
+    };
+
+    setMeta('name', 'description', desc);
+    setMeta('property', 'og:title', title);
+    setMeta('property', 'og:description', desc);
+    setMeta('property', 'og:url', canonical);
+    setMeta('property', 'og:image', ogImage);
+    setMeta('property', 'og:type', article ? 'article' : 'website');
+    setMeta('property', 'og:site_name', siteName);
+    setMeta('name', 'twitter:card', 'summary_large_image');
+    setMeta('name', 'twitter:title', title);
+    setMeta('name', 'twitter:description', desc);
+    setMeta('name', 'twitter:image', ogImage);
+
+    // Canonical link tag
+    let canonicalEl = document.querySelector('link[rel="canonical"]');
+    if (!canonicalEl) {
+      canonicalEl = document.createElement('link');
+      canonicalEl.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalEl);
     }
-    metaDesc.setAttribute('content', desc);
+    canonicalEl.setAttribute('href', canonical);
 
-    // Update OpenGraph
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', title);
+    // Remove old dynamic JSON-LD scripts
+    const oldScripts = document.querySelectorAll('script[data-dynamic-jsonld]');
+    oldScripts.forEach((s) => s.remove());
 
-    const ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogDesc) ogDesc.setAttribute('content', desc);
+    const jsonLdScripts: object[] = [];
 
-    // Schema.org Structured Data
-    const existingScript = document.getElementById('perfume-jsonld');
-    if (existingScript) {
-      existingScript.remove();
+    const isHomePage = canonical === `${origin}/` || (pageMeta && pageMeta.canonicalPath === '/');
+
+    // Organization and WebSite Schemas on home page
+    if (isHomePage) {
+      jsonLdScripts.push({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: "L'ARGENT NOIR",
+        url: origin,
+        logo: `${origin}/favicon.ico`,
+        description: 'An independent fine fragrance journal and luxury perfume compendium.',
+        sameAs: [
+          'https://twitter.com/argentnoir',
+          'https://instagram.com/argentnoir',
+        ],
+      });
+
+      jsonLdScripts.push({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: "L'ARGENT NOIR",
+        url: origin,
+        description: 'A haute parfumerie journal and luxury perfume compendium.',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: `${origin}/?search={search_term_string}`,
+          'query-input': 'required name=search_term_string',
+        },
+      });
     }
 
-    const script = document.createElement('script');
-    script.id = 'perfume-jsonld';
-    script.type = 'application/ld+json';
+    // BreadcrumbList Schema on all inner pages
+    if (!isHomePage) {
+      const breadcrumbs = pageMeta?.breadcrumbs || (article ? [
+        { name: 'Home', url: '/' },
+        { name: 'Niche Perfume Reviews', url: '/niche-perfume-reviews' },
+        { name: article.title, url: article.slug },
+      ] : [{ name: 'Home', url: '/' }]);
 
+      jsonLdScripts.push({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbs.map((b, idx) => ({
+          '@type': 'ListItem',
+          position: idx + 1,
+          name: b.name,
+          item: origin + b.url,
+        })),
+      });
+    }
+
+    // FAQPage Schema if FAQs exist
+    const faqs = pageMeta?.faqs || article?.faqs;
+    if (faqs && faqs.length > 0) {
+      jsonLdScripts.push({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs.map((f) => ({
+          '@type': 'Question',
+          name: f.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: f.answer,
+          },
+        })),
+      });
+    }
+
+    // Article / Review Schema if viewing an article
     if (article) {
-      const articleJsonLd = {
+      jsonLdScripts.push({
         '@context': 'https://schema.org',
         '@type': 'Article',
         headline: article.title,
         description: article.metaDescription,
-        image: article.heroImage,
+        image: origin + article.heroImage,
         datePublished: article.publishedDate,
         dateModified: article.updatedDate,
         author: {
@@ -62,37 +157,25 @@ export function SEOHead({ article }: SEOProps) {
           name: "L'ARGENT NOIR",
           logo: {
             '@type': 'ImageObject',
-            url: window.location.origin + '/favicon.ico',
+            url: `${origin}/favicon.ico`,
           },
         },
         mainEntityOfPage: {
           '@type': 'WebPage',
-          '@id': window.location.origin + article.slug,
+          '@id': canonical,
         },
-      };
-      script.textContent = JSON.stringify(articleJsonLd);
-    } else {
-      const siteJsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        name: "L'ARGENT NOIR",
-        url: window.location.origin,
-        description: defaultDesc,
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: `${window.location.origin}/?search={search_term_string}`,
-          'query-input': 'required name=search_term_string',
-        },
-      };
-      script.textContent = JSON.stringify(siteJsonLd);
+      });
     }
 
-    document.head.appendChild(script);
-
-    return () => {
-      // clean up if needed
-    };
-  }, [article]);
+    // Append JSON-LD script tags
+    jsonLdScripts.forEach((data) => {
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.setAttribute('data-dynamic-jsonld', 'true');
+      script.textContent = JSON.stringify(data);
+      document.head.appendChild(script);
+    });
+  }, [pageMeta, article]);
 
   return null;
 }

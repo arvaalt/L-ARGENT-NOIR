@@ -1,4 +1,88 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/perfume-reviews",
+      "destination": "/niche-perfume-reviews",
+      "permanent": true
+    },
+    {
+      "source": "/scent-notes",
+      "destination": "/perfume-notes-explained",
+      "permanent": true
+    },
+    {
+      "source": "/longevity-guide",
+      "destination": "/how-to-make-perfume-last-longer",
+      "permanent": true
+    },
+    {
+      "source": "/recommendations",
+      "destination": "/best-long-lasting-niche-perfumes",
+      "permanent": true
+    },
+    {
+      "source": "/concentration-guide",
+      "destination": "/eau-de-parfum-vs-parfum",
+      "permanent": true
+    },
+    {
+      "source": "/fragrance-families",
+      "destination": "/woody-oriental-fragrance-family",
+      "permanent": true
+    },
+    {
+      "source": "/blog/top-10-best-perfumes-for-men-in-2026",
+      "destination": "/niche-perfume-reviews/sauvage-elixir-dior",
+      "permanent": true
+    },
+    {
+      "source": "/blog/best-long-lasting-perfumes-for-women",
+      "destination": "/niche-perfume-reviews/baccarat-rouge-540-maison-francis-kurkdjian",
+      "permanent": true
+    },
+    {
+      "source": "/blog/eau-de-parfum-vs-eau-de-toilette-difference",
+      "destination": "/niche-perfume-reviews/bleu-de-chanel-edp-chanel",
+      "permanent": true
+    },
+    {
+      "source": "/blog/best-perfumes-for-summer-fresh-fragrances",
+      "destination": "/niche-perfume-reviews/wulong-cha-nishane",
+      "permanent": true
+    },
+    {
+      "source": "/blog/best-perfumes-to-gift-special-occasions",
+      "destination": "/niche-perfume-reviews/angels-share-kilian-paris",
+      "permanent": true
+    },
+    {
+      "source": "/blog/beginners-guide-perfume-notes-top-middle-base",
+      "destination": "/niche-perfume-reviews/shalimar-guerlain-paris",
+      "permanent": true
+    },
+    {
+      "source": "/blog/how-to-make-perfume-last-longer-all-day",
+      "destination": "/niche-perfume-reviews/molecule-01-escentric-molecules",
+      "permanent": true
+    },
+    {
+      "source": "/blog/best-oud-perfumes-woody-luxurious-scents",
+      "destination": "/niche-perfume-reviews/oud-wood-tom-ford",
+      "permanent": true
+    },
+    {
+      "source": "/blog/best-affordable-perfumes-that-smell-expensive",
+      "destination": "/niche-perfume-reviews/encre-noire-lalique",
+      "permanent": true
+    },
+    {
+      "source": "/blog/how-to-choose-perfume-personality-lifestyle",
+      "destination": "/niche-perfume-reviews/another-13-le-labo",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",

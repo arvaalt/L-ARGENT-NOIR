@@ -2,31 +2,40 @@ import { useState } from 'react';
 import { Search, Bookmark, Menu, X, Sparkles } from 'lucide-react';
 
 interface HeaderProps {
-  onNavigateHome: () => void;
+  currentPath: string;
+  onNavigate: (path: string) => void;
   onOpenSearch: () => void;
   onOpenFinder: () => void;
-  onSelectCategory: (categoryId: string) => void;
   savedCount: number;
   onOpenBookmarks: () => void;
-  currentSlug: string | null;
 }
 
 export function Header({
-  onNavigateHome,
+  currentPath,
+  onNavigate,
   onOpenSearch,
   onOpenFinder,
-  onSelectCategory,
   savedCount,
   onOpenBookmarks,
 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const navLinks = [
+    { name: 'Reviews', path: '/niche-perfume-reviews' },
+    { name: 'Scent Notes', path: '/perfume-notes-explained' },
+    { name: 'Longevity', path: '/how-to-make-perfume-last-longer' },
+    { name: 'Concentrations', path: '/eau-de-parfum-vs-parfum' },
+    { name: 'Families', path: '/woody-oriental-fragrance-family' },
+    { name: 'Best Niche', path: '/best-long-lasting-niche-perfumes' },
+  ];
+
   return (
-    <header className="sticky top-0 z-40 w-full bg-[#0b0c0e]/90 backdrop-blur-md border-b border-zinc-800/80 transition-colors">
+    <header className="sticky top-0 z-40 w-full bg-[#0b0c0e]/95 backdrop-blur-md border-b border-zinc-800/80 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-8">
-        {/* Zone 1: Brand Wordmark */}
+        {/* Zone 1: Single text element wordmark */}
         <button
-          onClick={onNavigateHome}
+          type="button"
+          onClick={() => onNavigate('/')}
           className="group flex flex-col items-start text-left shrink-0 cursor-pointer focus:outline-none"
         >
           <span className="font-display-luxury text-xl sm:text-2xl font-bold tracking-[0.2em] text-white transition-opacity group-hover:opacity-80">
@@ -37,82 +46,57 @@ export function Header({
           </span>
         </button>
 
-        {/* Zone 2: 4-5 clean single-line nav links */}
-        <nav className="hidden md:flex items-center gap-7 text-xs uppercase tracking-[0.2em] font-medium text-zinc-300">
-          <button
-            onClick={() => {
-              onNavigateHome();
-              onSelectCategory('all');
-            }}
-            className="hover:text-white transition-colors cursor-pointer py-1 border-b border-transparent hover:border-zinc-400"
-          >
-            Articles
-          </button>
-          <button
-            onClick={() => {
-              onNavigateHome();
-              onSelectCategory('guides');
-            }}
-            className="hover:text-white transition-colors cursor-pointer py-1 border-b border-transparent hover:border-zinc-400"
-          >
-            Notes & Science
-          </button>
-          <button
-            onClick={() => {
-              onNavigateHome();
-              onSelectCategory('men');
-            }}
-            className="hover:text-white transition-colors cursor-pointer py-1 border-b border-transparent hover:border-zinc-400"
-          >
-            Men
-          </button>
-          <button
-            onClick={() => {
-              onNavigateHome();
-              onSelectCategory('women');
-            }}
-            className="hover:text-white transition-colors cursor-pointer py-1 border-b border-transparent hover:border-zinc-400"
-          >
-            Women
-          </button>
-          <button
-            onClick={() => {
-              onNavigateHome();
-              onSelectCategory('luxury-oud');
-            }}
-            className="hover:text-white transition-colors cursor-pointer py-1 border-b border-transparent hover:border-zinc-400"
-          >
-            Oud & Niche
-          </button>
+        {/* Zone 2: 5-6 clean single-line nav links */}
+        <nav aria-label="Main Navigation" className="hidden lg:flex items-center gap-7 text-xs uppercase tracking-[0.2em] font-medium text-zinc-300">
+          {navLinks.map((link) => {
+            const isActive = currentPath === link.path;
+            return (
+              <button
+                key={link.path}
+                type="button"
+                onClick={() => onNavigate(link.path)}
+                className={`transition-colors cursor-pointer py-1 border-b whitespace-nowrap shrink-0 ${
+                  isActive
+                    ? 'text-white border-zinc-300 font-semibold'
+                    : 'text-zinc-400 hover:text-white border-transparent hover:border-zinc-500'
+                }`}
+              >
+                {link.name}
+              </button>
+            );
+          })}
         </nav>
 
         {/* Zone 3: Interactive Affordances (Search, Finder, Bookmarks) */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {/* Scent Finder CTA */}
           <button
+            type="button"
             onClick={onOpenFinder}
-            className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-zinc-700 hover:border-zinc-400 bg-zinc-900/60 text-xs font-medium text-zinc-200 hover:text-white transition-all cursor-pointer"
+            className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-zinc-700 hover:border-zinc-400 bg-zinc-900/60 text-xs font-medium text-zinc-200 hover:text-white transition-all cursor-pointer whitespace-nowrap shrink-0"
             title="Launch Scent Finder Quiz"
           >
             <Sparkles className="w-3.5 h-3.5 text-zinc-300" />
-            <span className="tracking-wide">Scent Finder</span>
+            <span className="tracking-wide">Scent Concierge</span>
           </button>
 
           {/* Quick Search */}
           <button
+            type="button"
             onClick={onOpenSearch}
             className="p-2 sm:px-3 sm:py-1.5 rounded-lg border border-zinc-800 hover:border-zinc-700 bg-zinc-900/40 text-zinc-400 hover:text-white transition-colors flex items-center gap-2 cursor-pointer"
-            aria-label="Search articles"
+            aria-label="Search compendium"
           >
             <Search className="w-4 h-4" />
-            <span className="hidden sm:inline text-xs font-mono text-zinc-500">Search ⌘K</span>
+            <span className="hidden xl:inline text-xs font-mono text-zinc-500">⌘K</span>
           </button>
 
           {/* Saved Articles */}
           <button
+            type="button"
             onClick={onOpenBookmarks}
             className="relative p-2 rounded-lg border border-zinc-800 hover:border-zinc-700 bg-zinc-900/40 text-zinc-400 hover:text-white transition-colors cursor-pointer"
-            aria-label="Saved articles"
+            aria-label="Saved articles library"
             title="View saved articles"
           >
             <Bookmark className="w-4 h-4" />
@@ -125,9 +109,10 @@ export function Header({
 
           {/* Mobile hamburger */}
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg border border-zinc-800 text-zinc-400 hover:text-white"
-            aria-label="Toggle menu"
+            className="lg:hidden p-2 rounded-lg border border-zinc-800 text-zinc-400 hover:text-white"
+            aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -136,70 +121,34 @@ export function Header({
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#0e1014] border-b border-zinc-800 px-4 pt-3 pb-6 space-y-3">
+        <nav aria-label="Mobile Navigation" className="lg:hidden bg-[#0e1014] border-b border-zinc-800 px-4 pt-3 pb-6 space-y-3">
           <div className="flex flex-col space-y-2 text-sm uppercase tracking-widest text-zinc-300">
             <button
+              type="button"
               onClick={() => {
-                onNavigateHome();
-                onSelectCategory('all');
+                onNavigate('/');
                 setMobileMenuOpen(false);
               }}
-              className="text-left py-2 border-b border-zinc-800/50 hover:text-white"
+              className={`text-left py-2 border-b border-zinc-800/50 hover:text-white ${currentPath === '/' ? 'text-white font-semibold' : ''}`}
             >
-              All Articles
+              Home (Compendium)
             </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
-                onSelectCategory('guides');
-                setMobileMenuOpen(false);
-              }}
-              className="text-left py-2 border-b border-zinc-800/50 hover:text-white"
-            >
-              Notes & Perfume Science
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
-                onSelectCategory('men');
-                setMobileMenuOpen(false);
-              }}
-              className="text-left py-2 border-b border-zinc-800/50 hover:text-white"
-            >
-              Men’s Fragrances
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
-                onSelectCategory('women');
-                setMobileMenuOpen(false);
-              }}
-              className="text-left py-2 border-b border-zinc-800/50 hover:text-white"
-            >
-              Women’s Fragrances
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
-                onSelectCategory('luxury-oud');
-                setMobileMenuOpen(false);
-              }}
-              className="text-left py-2 border-b border-zinc-800/50 hover:text-white"
-            >
-              Oud & Niche
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
-                onSelectCategory('lifestyle-value');
-                setMobileMenuOpen(false);
-              }}
-              className="text-left py-2 border-b border-zinc-800/50 hover:text-white"
-            >
-              Gifting & Curations
-            </button>
+            {navLinks.map((link) => (
+              <button
+                key={link.path}
+                type="button"
+                onClick={() => {
+                  onNavigate(link.path);
+                  setMobileMenuOpen(false);
+                }}
+                className={`text-left py-2 border-b border-zinc-800/50 hover:text-white ${currentPath === link.path ? 'text-white font-semibold' : ''}`}
+              >
+                {link.name}
+              </button>
+            ))}
           </div>
           <button
+            type="button"
             onClick={() => {
               onOpenFinder();
               setMobileMenuOpen(false);
@@ -207,9 +156,9 @@ export function Header({
             className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md bg-zinc-800 text-white text-xs uppercase tracking-widest font-medium"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            Launch Scent Finder
+            Launch Scent Concierge
           </button>
-        </div>
+        </nav>
       )}
     </header>
   );

@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Mail, Check, ArrowRight } from 'lucide-react';
-import { CATEGORIES } from '../data/articles';
 
 interface FooterProps {
-  onSelectCategory: (catId: string) => void;
-  onNavigateHome: () => void;
+  onNavigate: (path: string) => void;
 }
 
-export function Footer({ onSelectCategory, onNavigateHome }: FooterProps) {
+export function Footer({ onNavigate }: FooterProps) {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -25,40 +23,109 @@ export function Footer({ onSelectCategory, onNavigateHome }: FooterProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
           {/* Brand & Manifesto Column */}
-          <div className="md:col-span-5 space-y-4">
+          <div className="md:col-span-4 space-y-4">
             <button
-              onClick={onNavigateHome}
+              type="button"
+              onClick={() => onNavigate('/')}
               className="text-left font-display-luxury text-xl font-bold tracking-[0.25em] text-white hover:opacity-90 cursor-pointer block"
             >
               L'ARGENT NOIR
             </button>
             <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed max-w-sm">
-              An independent archival publication and masterclass compendium dedicated to the art, chemical architecture, and cultural heritage of haute parfumerie.
+              An independent fine fragrance journal and luxury perfume compendium dedicated to the art, chemical architecture, and cultural heritage of haute parfumerie.
             </p>
-            <div className="pt-2 text-xs text-zinc-400 font-mono">
+            <div className="pt-2 text-xs text-zinc-500 font-mono">
               Grasse · Paris · Dubai · London
             </div>
           </div>
 
-          {/* Categories Navigation */}
-          <div className="md:col-span-3 space-y-3">
+          {/* Core Masterclass Guides */}
+          <div className="md:col-span-2 space-y-3">
             <span className="text-xs uppercase tracking-[0.2em] text-white font-semibold block">
-              Editorial Volumes
+              Editorial Guides
             </span>
             <ul className="space-y-2 text-xs text-zinc-400">
-              {CATEGORIES.map((cat) => (
-                <li key={cat.id}>
-                  <button
-                    onClick={() => {
-                      onNavigateHome();
-                      onSelectCategory(cat.id);
-                    }}
-                    className="hover:text-white transition-colors cursor-pointer"
-                  >
-                    {cat.name}
-                  </button>
-                </li>
-              ))}
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('/niche-perfume-reviews')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Niche Perfume Reviews
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('/perfume-notes-explained')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Perfume Notes Explained
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('/how-to-make-perfume-last-longer')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  How to Make Perfume Last Longer
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('/best-long-lasting-niche-perfumes')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Best Long Lasting Niche Perfumes
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* New Olfactory Guides */}
+          <div className="md:col-span-2 space-y-3">
+            <span className="text-xs uppercase tracking-[0.2em] text-white font-semibold block">
+              Classification
+            </span>
+            <ul className="space-y-2 text-xs text-zinc-400">
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('/eau-de-parfum-vs-parfum')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Eau de Parfum vs Parfum
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('/woody-oriental-fragrance-family')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Woody Oriental Fragrance Family
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('/niche-perfume-reviews/oud-wood-tom-ford')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Oud Perfume Guide
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('/niche-perfume-reviews/sauvage-elixir-dior')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Best Perfumes for Men 2026
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -105,9 +172,15 @@ export function Footer({ onSelectCategory, onNavigateHome }: FooterProps) {
         <div className="mt-16 pt-8 border-t border-zinc-900/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400">
           <p>© {new Date().getFullYear()} L'ARGENT NOIR. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <span className="hover:text-zinc-400 cursor-pointer">Editorial Ethics</span>
-            <span className="hover:text-zinc-400 cursor-pointer">Fragrance Index</span>
-            <span className="hover:text-zinc-400 cursor-pointer">Scent Philosophy</span>
+            <button type="button" onClick={() => onNavigate('/')} className="hover:text-zinc-200 cursor-pointer">
+              Haute Parfumerie
+            </button>
+            <button type="button" onClick={() => onNavigate('/perfume-notes-explained')} className="hover:text-zinc-200 cursor-pointer">
+              Olfactory Index
+            </button>
+            <button type="button" onClick={() => onNavigate('/how-to-make-perfume-last-longer')} className="hover:text-zinc-200 cursor-pointer">
+              Longevity Science
+            </button>
           </div>
         </div>
       </div>
